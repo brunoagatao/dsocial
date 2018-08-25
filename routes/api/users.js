@@ -22,7 +22,7 @@ router.get('/test', (req, res) => res.json({ msg: 'Users Works' }));
 
 /*
   @route   GET api/users/register
-  @desc    register user
+  @desc    registers user
   @access  public
 */
 router.post('/register', (req, res) => {
@@ -63,7 +63,7 @@ router.post('/register', (req, res) => {
 
 /*
   @route   GET api/users/login
-  @desc    login user / returns JWT token
+  @desc    logs user in / returns JWT token
   @access  public
 */
 router.post('/login', (req, res) => {
@@ -110,7 +110,7 @@ router.post('/login', (req, res) => {
 
 /*
   @route   GET api/users/current
-  @desc    return current user
+  @desc    returns current user
   @access  private
 */
 router.get('/current', passport.authenticate('jwt', { session: false }),
@@ -120,6 +120,7 @@ router.get('/current', passport.authenticate('jwt', { session: false }),
       name: req.user.name,
       email: req.user.email
     });
-  });
+  }
+);
 
 module.exports = router;
