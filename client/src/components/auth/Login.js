@@ -1,4 +1,9 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+import { withRouter } from 'react-router-dom';
+import { connect } from 'react-redux';
+import classnames from 'classnames';
+import { loginUser } from '../../actions/authActions';
 
 class Login extends React.PureComponent {
   constructor(props) {
@@ -10,6 +15,17 @@ class Login extends React.PureComponent {
     };
   };
 
+  componentDidMount = () => {
+    const { auth, history } = this.props;
+    if (auth.isAuthenticated) history.push('/dashboard');
+  };
+
+  componentWillReceiveProps = (nextProps) => {
+    const { history } = this.props;
+    if (nextProps.auth.isAuthenticated) history.push('/dashboard');
+    if (nextProps.errors) this.setState({ errors: nextProps.errors });
+  };
+
   onChange = (e) => {
     this.setState({ [e.target.name]: e.target.value })
   };
@@ -18,19 +34,25 @@ class Login extends React.PureComponent {
     e.preventDefault();
 
     const {
+      history,
+      loginUser
+    } = this.props;
+
+    const {
       email,
       password
     } = this.state;
 
-    const loginUser = {
+    const user = {
       email,
       password
     };
 
-    console.log(loginUser);
+    loginUser(user, history);
   };
 
   render() {
+    const { errors } = this.state;
     return (
       <div className='login'>
         <div className='container'>
@@ -42,22 +64,24 @@ class Login extends React.PureComponent {
                 <div className='form-group'>
                   <input
                     type='email'
-                    className='form-control form-control-lg'
+                    className={classnames('form-control form-control-lg', { 'is-invalid': errors.email })}
                     placeholder='Email Address'
                     name='email'
                     value={this.state.email}
-                    onChange={this.state.onChange}
+                    onChange={this.onChange}
                   />
+                  {errors.email && (<div className='invalid-feedback'>{errors.email}</div>)}
                 </div>
                 <div className='form-group'>
                   <input
                     type='password'
-                    className='form-control form-control-lg'
+                    className={classnames('form-control form-control-lg', { 'is-invalid': errors.password })}
                     placeholder='Password'
                     name='password'
                     value={this.state.password}
-                    onChange={this.state.onChange}
+                    onChange={this.onChange}
                   />
+                  {errors.password && (<div className='invalid-feedback'>{errors.password}</div>)}
                 </div>
                 <input
                   type='submit'
@@ -72,4 +96,19 @@ class Login extends React.PureComponent {
   };
 };
 
-export default Login;
+Login.propTypes = {
+  loginUser: PropTypes.func.isRequired,
+  auth: PropTypes.object.isRequired,
+  errors: PropTypes.object.isRequired
+};
+
+const mapStateToProps = (state) => ({
+  auth: state.auth,
+  errors: state.errors
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  loginUser: (userData, history) => dispatch(loginUser(userData, history))
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(Login));

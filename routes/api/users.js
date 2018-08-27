@@ -33,7 +33,7 @@ router.post('/register', (req, res) => {
     .then((user) => {
       if (user) {
         errors.email = 'Email already exists';
-        return res.status(400).json({ errors });
+        return res.status(400).json(errors);
       } else {
         const avatar = gravatar.url(req.body.email, {
           s: '200', // size
@@ -77,7 +77,7 @@ router.post('/login', (req, res) => {
     .then((user) => {
       if (!user) {
         errors.email = 'User not found'
-        return res.status(404).json({ errors });
+        return res.status(404).json(errors);
       }
 
       bcrypt.compare(password, user.password)
@@ -102,7 +102,7 @@ router.post('/login', (req, res) => {
           }
           else {
             errors.password = 'Password incorrect'
-            return res.status(400).json({ errors });
+            return res.status(400).json(errors);
           }
         });
     });
