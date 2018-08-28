@@ -3,12 +3,18 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { logoutUser } from '../../actions/authActions';
+import { clearCurrentProfile } from '../../actions/profileActions';
 
 class Navbar extends React.PureComponent {
   onLogoutClick = (e) => {
     e.preventDefault();
 
-    const { logoutUser } = this.props;
+    const {
+      logoutUser,
+      clearCurrentProfile
+    } = this.props;
+
+    clearCurrentProfile();
     logoutUser();
   };
 
@@ -17,14 +23,14 @@ class Navbar extends React.PureComponent {
 
     const authLinks = (
       <ul className='navbar-nav ml-auto'>
-        <li className='nav-item'>
-          <Link className='nav-link' to='/register'>
-            Sign Up
+        <li className="nav-item">
+          <Link className="nav-link" to="/dashboard">
+            Dashboard
           </Link>
         </li>
         <li className='nav-item'>
           <a
-            href='#'
+            href=''
             className='nav-link'
             onClick={this.onLogoutClick}
           >
@@ -90,7 +96,8 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  logoutUser: () => dispatch(logoutUser())
+  logoutUser: () => dispatch(logoutUser()),
+  clearCurrentProfile: () => dispatch(clearCurrentProfile())
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Navbar);
