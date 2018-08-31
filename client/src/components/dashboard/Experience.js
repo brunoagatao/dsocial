@@ -44,9 +44,9 @@ class Experience extends React.PureComponent {
         <table className='table'>
           <thead>
             <tr>
-              <th>Company</th>
-              <th>Title</th>
-              <th>Years</th>
+              <th style={{ width: '25%' }}>Company</th>
+              <th style={{ width: '25%' }}>Title</th>
+              <th style={{ width: '25%' }}>Years</th>
               <th></th>
             </tr>
           </thead>

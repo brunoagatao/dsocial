@@ -44,9 +44,9 @@ class Education extends React.PureComponent {
         <table className='table'>
           <thead>
             <tr>
-              <th>School</th>
-              <th>Degree</th>
-              <th>Years</th>
+              <th style={{ width: '25%' }}>School</th>
+              <th style={{ width: '25%' }}>Degree</th>
+              <th style={{ width: '25%' }}>Years</th>
               <th></th>
             </tr>
           </thead>

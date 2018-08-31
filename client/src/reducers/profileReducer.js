@@ -6,8 +6,8 @@ import {
 } from '../actions/types';
 
 const initialState = {
-  profile: null,
-  profiles: null,
+  profile: {},
+  profiles: {},
   loading: false
 };
 
@@ -33,7 +33,7 @@ const profileReducer = (state = initialState, action) => {
     case CLEAR_CURRENT_PROFILE:
       return {
         ...state,
-        profile: null
+        profile: {}
       };
     default:
       return state;

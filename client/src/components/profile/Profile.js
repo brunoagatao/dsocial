@@ -8,6 +8,7 @@ import ProfileAbout from './ProfileAbout';
 import ProfileCreds from './ProfileCreds';
 import ProfileGithub from './ProfileGithub';
 import Spinner from '../common/Spinner';
+import isEmpty from '../../validation/isEmpty';
 
 class Profile extends React.PureComponent {
   componentDidMount = () => {
@@ -18,7 +19,7 @@ class Profile extends React.PureComponent {
 
   componentWillReceiveProps = (nextProps) => {
     const { profile, history } = this.props;
-    if (!nextProps.profile.profile && profile.loading) {
+    if (isEmpty(nextProps.profile.profile) && profile.loading) {
       history.push('/not-found');
     };
   };
@@ -27,14 +28,14 @@ class Profile extends React.PureComponent {
     const { profile, loading } = this.props.profile;
 
     let profileContent;
-    if (profile === null || loading) profileContent = <Spinner />
+    if (isEmpty(profile) || loading) profileContent = <Spinner />
     else {
       profileContent = (
         <div>
           <div className='row'>
             <div className='col-md-6'>
               <Link to='/profiles' className='btn btn-light mb-3 float-left'>
-                Back to Profiles
+                See Other Profiles
               </Link>
             </div>
             <div className='col-md-6' />

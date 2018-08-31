@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { getProfiles } from '../../actions/profileActions';
 import Spinner from '../common/Spinner';
 import ProfileItem from './ProfileItem';
+import isEmpty from '../../validation/isEmpty';
 
 class Profiles extends React.PureComponent {
 
@@ -17,7 +18,7 @@ class Profiles extends React.PureComponent {
     const { profiles, loading } = profile;
 
     let profileItems;
-    if (profiles === null || loading) profileItems = <Spinner />
+    if (isEmpty(profiles) || loading) profileItems = <Spinner />
     else {
       if (profiles.length > 0) profileItems = profiles.map((profile) => (
         <ProfileItem
